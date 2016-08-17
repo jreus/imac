@@ -1,0 +1,164 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf480
+{\fonttbl\f0\fnil\fcharset77 Monaco;\f1\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green0\blue0;\red191\green0\blue0;
+\red96\green96\blue96;\red0\green0\blue191;\red0\green115\blue0;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 Server\cf3 .default = s = \cf2 Server\cf3 .internal;\
+s.boot;\
+\
+\{ \cf2 SoundIn\cf3 .ar(0, mul: 1) \}.scope;\
+\
+\pard\pardeftab560\ql\qnatural
+\cf3 (\
+\cf2 CmdPeriod\cf3 .add(\{r.remove\});\
+\
+\
+\{\
+\cf2 var\cf3  in, sumsamples = 50, amp, thresh = 0.1, gatethresh = 0.3, gate;\
+in = \cf2 SoundIn\cf3 .ar(0, mul:0.5);\
+amp = \cf2 Amplitude\cf3 .kr(in, 0.001, 0.01);\
+gate = amp > gatethresh;\
+\cf4 //amp = RunningSum.rms(Limiter.ar(in, 1.0, 0.001), sumsamples);\cf3 \
+\cf2 SendTrig\cf3 .kr(gate, 100, amp * gate);\
+\cf4 //if(amp > thresh, PlayBuf.ar(1,b, BufRateScale.kr(b)),in);\cf3 \
+\}.play;\
+\
+\
+\
+(\
+~t_thresh = 1;\
+~t_last = \cf2 Date\cf3 .getDate.bootSeconds;\
+~phrases = [\cf5 "So good"\cf3 ,\cf5 "Revolutionary"\cf3 ,\cf5 "Amazing"\cf3 ,\cf5 "Hello"\cf3 ];\
+~cnt = 0;\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf2 Speech\cf3 .init(2);\
+\pard\pardeftab560\ql\qnatural
+\cf2 Speech\cf3 .channels[0].voice_(20);\
+\cf2 Speech\cf3 .channels[1].voice_(18);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 \
+\pard\pardeftab560\ql\qnatural
+\cf6 Speech\cf0 .channels[0].voice_(7);\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 \
+\pard\pardeftab560\ql\qnatural
+\cf3 \
+r = \cf2 OSCresponder\cf3 (s.addr, \cf7 '\\tr'\cf3 , \{ \cf2 arg\cf3  time, responder, msg; \
+	\cf2 var\cf3  val, t_now, tosay;\
+	val = msg[3];\
+	\cf4 //postln(val);\cf3 \
+	t_now = \cf2 Date\cf3 .getDate.bootSeconds;\
+	\
+	if(((t_now - ~t_last) > ~t_thresh), \
+		\{ \
+			tosay = ~phrases[~cnt % 4];\
+			~cnt = ~cnt + 1;\
+\
+			\cf2 Routine\cf3 (\{\
+			\cf2 Speech\cf3 .channels[0].stop(\cf7 \\endOfWord\cf3 );	\
+			wait(0.4);\
+			\cf4 //Speech.channels[0].pitch_(val * 100);	\cf3 \
+			\cf2 Speech\cf3 .channels[0].speak(tosay);\
+			wait(0.4);\
+			\}).play;\
+			~t_last = t_now;\
+		\}\
+	);\
+	\
+	\
+	\}).add;\
+);\
+\
+)\
+\
+\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 \
+\
+\
+\
+\
+\cf4 // Interaction with the OS without using OSC\cf3 \
+\cf4 // String.unixCmd(action, postoutput);\cf3 \
+\cf4 // String.unixCmdGetStdOut\cf3 \
+\cf4 // Integer.pidRunning\cf3 \
+\cf4 // String.runInTerminal\cf3 \
+\cf4 // String.setenv(value)\cf3 \
+\cf4 // String.getenv\cf3 \
+\
+\cf5 "echo My shell is $0"\cf3 .unixCmd(action: \{\cf2 |res, pid|\cf3  [\cf7 \\done\cf3 , res, pid].postln\},postOutput: \cf2 true\cf3 );\
+(\
+(\cf5 "osascript"\cf3  \
+	+\cf5 " -e 'tell application \\"System Events\\"'"\cf3  \
+	+\cf5 " -e 'repeat 6 times'"\cf3  \
+	+\cf5 " -e 'beep'"\cf3  \
+	+\cf5 " -e 'key code 111'"\cf3  \
+	+\cf5 " -e 'delay 1'"\cf3  \
+	+\cf5 " -e 'key code 111'"\cf3 \
+	+\cf5 " -e 'delay 1'"\cf3 \
+	+\cf5 " -e 'end repeat'"\cf3  \
+	+\cf5 " -e 'end tell'"\cf3 \
+	).unixCmd;\
+)\
+\
+(\
+\cf5 "osascript -e 'beep'"\cf3 .unixCmd;\
+)	\
+\
+(\
+\cf5 "osascript -e 'say \\"Revolutionary!\\"'"\cf3 .unixCmd;\
+\cf5 "Revolutionary"\cf3 .speak;\
+\cf5 "ReEEEEEEEeeeeEEEEEeeeEEEEeEEEEEEEEEEEeeeeEEEEEeevolutionary"\cf3 .speak;\
+\
+\cf2 Speech\cf3 .init(2);\
+\
+\cf2 Speech\cf3 .channels[0].speak(\cf5 "So good you want to lick it"\cf3 );\
+\cf2 Speech\cf3 .channels[1].speak(\cf5 "Revolutionary"\cf3 );\
+)\
+\
+\pard\pardeftab560\ql\qnatural
+\cf4 // Voice 5 is really nice. Voice 6 is more dubsteppy.\cf3 \
+\cf4 // Voice 7, 11 is mr computer. 14, 15, 20, 21 is ms computer\cf3 \
+\cf4 // 18 is bass. 19, 23 is Daft Punk.\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf3 \
+\cf2 Speech\cf3 .channels[0].volume_(-6.dbamp);\
+\cf2 Speech\cf3 .channels[1].volume_(-6.dbamp);\
+\pard\pardeftab560\ql\qnatural
+\cf2 Speech\cf3 .channels[0].pitch_(50); \cf4 // Min at 31. Max at 78. Med at 38.\cf3 \
+\cf2 Speech\cf3 .channels[1].pitch_(38);\
+\cf2 Speech\cf3 .channels[0].pitchMod_(40); \cf4 // Speaking mod, min 30\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\pardeftab560\ql\qnatural\pardirnatural
+\cf2 Speech\cf3 .channels[0].speak(\cf5 "And its So good you want to lick it"\cf3 );\
+\cf2 Speech\cf3 .channels[1].speak(\cf5 "So good you want to lick it"\cf3 );\
+\cf4 // Never call speak twice very close after eachother.\cf3 \
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 	\
+\cf4 // Built-in SC speech is faster.\cf3 \
+\pard\pardeftab560\ql\qnatural
+\cf2 Speech\cf3 .channels[0].speak(\cf5 "hallo"\cf3 );\
+\cf2 Speech\cf3 .channels[0].isActive;\
+\cf2 Speech\cf3 .channels[0].voice_(2);\
+\cf2 Speech\cf3 .channels[0].speak(\cf5 "hallo"\cf3 );\
+\cf2 Speech\cf3 .channels[0].pitch_(60);\
+\cf2 Speech\cf3 .channels[0].speak(\cf5 "hallo"\cf3 );\
+\cf2 Speech\cf3 .channels[0].volume_(-20.dbamp);\
+\cf2 Speech\cf3 .channels[0].pitchMod_(50);\
+\cf2 Speech\cf3 .channels[0].speak(\cf5 "hallo"\cf3 );\
+\cf2 Speech\cf3 .channels[0].stop(\cf7 \\immediate\cf3 );\
+\cf2 Speech\cf3 .channels[0].stop(\cf7 \\endOfWord\cf3 );\
+\cf2 Speech\cf3 .channels[0].stop(\cf7 \\endOfSentence\cf3 );\
+\
+\pard\pardeftab560\ql\qnatural
+
+\f1\fs24 \cf4 // Force the voice to speaking something different by setting the second argument of speak to true.\cf3 \
+\pard\pardeftab560\ql\qnatural
+
+\f0\fs18 \cf3 \
+\cf2 Speech\cf3 .channels[0].speak(\cf5 "Force the voice to speaking something different."\cf3 );\
+\cf2 Speech\cf3 .channels[0].speak(\cf5 "Force the voice to speaking something different."\cf3 .reverse, \cf2 true\cf3 );\
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+\cf3 \
+}

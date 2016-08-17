@@ -1,0 +1,110 @@
+{\rtf1\mac\ansicpg10000\cocoartf824\cocoasubrtf480
+{\fonttbl\f0\fnil\fcharset77 Monaco;}
+{\colortbl;\red255\green255\blue255;\red0\green0\blue191;\red0\green0\blue0;\red191\green0\blue0;
+\red0\green115\blue0;\red96\green96\blue96;}
+\pard\tx560\tx1120\tx1680\tx2240\tx2800\tx3360\tx3920\tx4480\tx5040\tx5600\tx6160\tx6720\ql\qnatural\pardirnatural
+
+\f0\fs18 \cf2 Server\cf3 .default = s = \cf2 Server\cf3 .internal;\
+s.boot;\
+\
+a = ();\
+\
+(\
+\{ \
+	\cf2 var\cf3  in, amp, gate, thresh = 0.2;\
+	in =	\cf2 SoundIn\cf3 .ar([0,1], mul:2); \
+	amp = \cf2 Amplitude\cf3 .kr(\cf2 Mix\cf3 .ar(in));\
+	gate = \cf2 Lag\cf3 .kr(amp > thresh, 0.01);\
+	\cf2 Limiter\cf3 .ar((in * gate), 1.0, 0.01);\
+\}.scope;\
+)\
+\
+\cf4 // Ring mod\cf3 \
+\{ \cf2 SinOsc\cf3 .ar(\cf2 MouseX\cf3 .kr(0.001, 210, \cf5 'exponential'\cf3 )) * \cf2 SoundIn\cf3 .ar([0,1], mul: 1.0) \}.scope;\
+\
+a.listener = \cf2 Ndef\cf3 (\cf5 \\listen\cf3 ,\
+\{\
+	\cf2 var\cf3  inL, inR, ampL, ampR, noisethresh = 0.1, gate, out;\
+	\cf2 var\cf3  freq, hasFreq;\
+	\
+	inL = \cf2 SoundIn\cf3 .ar(0);\
+	inR = \cf2 SoundIn\cf3 .ar(1);\
+	ampL = \cf2 Amplitude\cf3 .kr(inL);\
+	\
+	gate = \cf2 Lag\cf3 .kr(ampL > noisethresh, 0.01);\
+	out = (inL * gate);\
+	# freq, hasFreq = \cf2 Pitch\cf3 .kr(out);\
+	out;\
+\});\
+a.listener.play;	\
+\
+\
+\
+\cf4 // Test pitch tracking\cf3 \
+(\
+\{\
+\cf2 var\cf3  freq, hasFreq, out;\
+# freq, hasFreq = \cf2 Pitch\cf3 .kr(\cf2 SoundIn\cf3 .ar(1, 0.1));\
+\cf4 //LFTri.ar(freq, mul: hasFreq);	\cf3 \
+if(hasFreq, \cf2 Pulse\cf3 .ar(freq), \cf2 SinOsc\cf3 .ar(200));\
+\}.scope;\
+)\
+\
+\cf4 // Onset detectors\cf3 \
+\cf2 Onsets\cf3 \
+\cf2 PV_HainsworthFoote\cf3 \
+\cf2 PV_JensenAndersen\cf3 \
+\cf4 // Probably just as good to take average amplitude and get the strength of touch.\cf3 \
+\cf4 // But what Ei Wada is doing.. is he really sending sound signals through the screen? Hmm..\cf3 \
+	\
+	\
+\pard\pardeftab560\ql\qnatural
+\cf4 // Read in system library..\cf3 \
+\cf4 // /System/Library/Sounds\cf3 \
+b = \cf2 Buffer\cf3 .read(s, \cf6 "/System/Library/Sounds/Submarine.aiff"\cf3 );\
+\cf4 // b = Buffer.alloc(s, 44100, 1);\cf3 \
+\
+(\
+\{ \cf4 // Onset detection\cf3 \
+	\cf2 var\cf3  source, detect;\
+	source = \cf2 SoundIn\cf3 .ar(0);\
+	detect = \cf2 Onsets\cf3 .kr(\cf2 FFT\cf3 (\cf2 LocalBuf\cf3 (2048), source), 0.1); \cf4 // 2nd arg is detection thresh\cf3 \
+	\
+	\cf4 // detect = PV_HainsworthFoote.ar(FFT(LocalBuf(2048),source), 1.0, 0.0, 0.7, 0.01);\cf3 \
+	\
+	\cf2 TGrains\cf3 .ar(2, detect, b, \cf2 LFNoise0\cf3 .kr(10,0.2,1.0),\cf2 MouseX\cf3 .kr(0, \cf2 BufDur\cf3 .kr(b)),\
+				\cf2 MouseY\cf3 .kr(0.1, 0.5), \cf2 LFNoise0\cf3 .kr(10,1.0), 0.5, 2);\
+	\
+\}.play;\
+)\
+\
+\{ \cf0 PlayBuf.ar(1,b, BufRateScale.kr(b)) \}.play;\cf3 \
+\
+\
+(\
+\{\
+\cf2 var\cf3  in, sumsamples = 50, amp, thresh = 0.1, gatethresh = 0.3, gate;\
+in = \cf2 SoundIn\cf3 .ar(0);\
+amp = \cf2 Amplitude\cf3 .kr(in, MouseX.kr(0.001, 1, 1), MouseY.kr(0.001, 1, 1));\
+gate = amp > gatethresh;\
+//amp = RunningSum.rms(Limiter.ar(in, 1.0, 0.001), sumsamples);\
+SendTrig.kr(Impulse.kr(3), 100, amp * gate);\
+//if(amp > thresh, \cf0 PlayBuf.ar(1,b, BufRateScale.kr(b))\cf3 ,in);\
+\}.play;\
+)\
+\
+(\
+r = OSCresponder(s.addr, '\\tr', \{ arg time, responder, msg; \
+	var val;\
+	val = msg[3];\
+	postln(val);\
+	if((val > 0.7), \{postln("Playit"); \{\cf0 PlayBuf.ar(1,b, BufRateScale.kr(b))\}.play\}, \{0\}\cf3 );\
+	\
+	\}).add;\
+)\
+\
+CmdPeriod.add(\{r.remove\});\
+\
+\
+\cf4 // RunningSum\cf3 \
+}
