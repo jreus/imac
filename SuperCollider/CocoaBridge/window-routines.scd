@@ -1,18 +1,25 @@
+/**********
+
+Window Animations using CocoaBridge
+
+Note that SCNSObject is broken in 3.5 (64-bit)
+
+See:
+https://github.com/supercollider/supercollider/issues/252
+http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/SCNSObject-cocoa-bridge-broken-in-3-5-td7294936.html
 
 
-
-
-// Cocoa Bridge.. SCNSObject..
-
+********/
 
 ~wins = Array.new(20);
 Window.screenBounds.right;
 Window.screenBounds.bottom;
-~wins.add(SCNSObject("NSWindow", "initWithContentRect:styleMask:backing:defer:", 
+~wins.add(SCNSObject("NSWindow", "initWithContentRect:styleMask:backing:defer:",
 [Rect(Window.screenBounds.right,Window.screenBounds.bottom,400,200), 271, 2, 1]));
 w = ~wins[0];
 
-256 | 8 | 4 | 2 | 1 | 0
+// Bitwise ops
+256 | 8 | 4 | 2 | 1 | 0;
 
 /*
 Window Style masks
@@ -56,7 +63,7 @@ w.invoke("deminiaturize:",[nil], defer:true);
 (
 s = Server.default;
 CmdPeriod.add({
-	Window.closeAll;	
+	Window.closeAll;
 	});
 w = SCWindow.new("MyWin",Rect(100,100,300,500));
 w.view.background = Color(0.7,0.8,0.6);
@@ -64,7 +71,7 @@ w.view.decorator = FlowLayout( w.view.bounds );
 w.front;
 );
 
-Ndef(\anal, 
+Ndef(\anal,
 {
 Amplitude.
 
@@ -80,7 +87,7 @@ Window.screenBounds;
 {
 SCButton.new(w,Point(100,100));
 /*b = SCButton(w,Point(200,200));
-//b.states = [["Yes", Color.black, Color.rand ], 
+//b.states = [["Yes", Color.black, Color.rand ],
 				[ "No", Color.white, Color.red ]];*/
 }.fork(AppClock);
 
@@ -89,15 +96,16 @@ SCButton.new(w,Point(100,100));
 {
 32.do({arg i;
 	b = SCButton(w, Rect(rrand(20,300), rrand(20, 300), 75, 24));
-	b.states = [["Start " ++ i, Color.black, Color.rand ], 
+	b.states = [["Start " ++ i, Color.black, Color.rand ],
 				[ "Stop " ++ i, Color.white, Color.red ]];
 	0.1.wait;
-	
-	});	
-	
+
+	});
+
 }.fork(AppClock);
 );
 
+/*
 Window.allWindows;
 
 Quarks.updateDirectory;
@@ -107,4 +115,4 @@ Quarks.installed;
 
 Platform.userAppSupportDir;
 Platform.userExtensionDir;
-
+*/

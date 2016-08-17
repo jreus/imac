@@ -1,0 +1,362 @@
+/***********************************************
+
+Server-side keyboard and mouse input hooks into the language.
+Allows keylistening and mouse listening OS-wide, even when SuperCollider is not the key application.
+
+Jonathan Brodsky-Reus Apr 2015
+
+
+**********************************************/
+
+
+
+/*********************************************************************************************
+Keyboard - A keylistener that responds OS-wide, even when SuperCollider is not the key application.
+The key listener won't respond to key combinations.. eg. shift, cmd, alt, ctrl are ignored.
+*********************************************************************************************/
+Keyboard {
+	// OSX keycodes and abbreviations
+	classvar <keycodes;
+	classvar singleton;
+	var <callbacks, <callbacks_up, <callbacks_down;
+	var <keysynths, <oscresponder, <responderKey;
+	var <>verbose;
+	var <server;
+
+
+	*enable {|serv|
+		Keyboard.getSingleton(serv).enable;
+	}
+
+	*disable {
+		Keyboard.getSingleton().disable;
+	}
+
+	initme {|serv|
+		Keyboard.initKeycodes;
+		callbacks = ();
+		callbacks_up = ();
+		callbacks_down = ();
+		verbose = false;
+		server = serv;
+		responderKey = ("/sskeyinput" ++ rrand(1,32000)).asSymbol;
+	}
+
+	*getSingleton {|serv=nil|
+		if(singleton.isNil) {
+			serv = serv ? Server.default;
+			singleton = super.new.initme(serv);
+			CmdPeriod.add({
+				Keyboard.disable;
+			});
+			singleton.enable();
+		};
+		^singleton;
+	}
+
+	*addKeyResponder {|keysymbol, cb_func|
+		Keyboard.getSingleton().addKeyResponder(keysymbol,cb_func);
+	}
+
+
+	*doForKey {|keysymbol, state, function|
+		Keyboard.getSingleton().doForKey(keysymbol, state, function);
+	}
+
+	doForKey {|keysymbol, state, function|
+		Keyboard.addKeyResponder(keysymbol, {|val, symb, indx|
+			if (val == 1) {
+				if(callbacks_down[symb].isNil) {
+					if(verbose) {
+						("No response for keydown " ++ indx ++ " // " ++ symb).postln;
+					};
+				} {
+					callbacks_down[symb].value(val, symb, indx);
+				};
+			} {
+				if(callbacks_up[symb].isNil) {
+					if(verbose) {
+						("No response for keyup " ++ indx ++ " // " ++ symb).postln;
+					};
+				} {
+					callbacks_up[symb].value(val, symb, indx);
+				};
+			};
+		});
+
+		if(state == 'UP') {
+			callbacks_up.put(keysymbol, function);
+		};
+
+		if(state == 'DOWN') {
+			callbacks_down.put(keysymbol, function);
+		};
+
+	}
+
+
+	/* keysymbol - a valid symbol representing a key in keycodes
+	cb_func - a callback to perform when the given key is pressed/released, cb_func expects 1 argument, the key up/down value
+	EX:
+	{|val| if (val == 1) {"Key is down".postln;} {"Key is up".postln;}; }
+	*/
+	addKeyResponder {|keysymbol, cb_func|
+
+		("Add responder for "++keysymbol).postln;
+		if (keycodes.findKeyForValue(keysymbol).isNil) {
+			Error("Key symbol"+keysymbol+" not valid").throw;
+		};
+
+		("Found key for value: "+keycodes.findKeyForValue(keysymbol)).postln;
+		callbacks.isNil && {callbacks = ()};
+		callbacks.put(keysymbol,cb_func);
+
+		"CALLBACKS".postln;
+		callbacks.postln;
+	}
+
+	// initialize synth and osc responder
+	enable {
+		if(this.isEnabled) {
+			"Keyboard is already enabled".postln;
+		} {
+			// SC 3.5 has the Changed UGEN, here we use HPZ2 to detect keystate changes
+			Server.default.waitForBoot {
+				keysynths = keycodes.collect{|key, code|
+						{
+							var t_state = KeyState.kr(code,-1,1,lag:0);
+							var hpz2 = HPZ2.kr(t_state);
+							var t_tr = hpz2 > 0;
+							SendReply.kr(t_tr, responderKey, [code, t_state]);
+							0;
+						}.play;
+					};
+
+				// OSCFunc available only in SC 3.5
+				//oscresponder = OSCFunc({|msg| (" "+ msg + "  " + ~keycodes[msg[2]]).postln; d[l[msg[2]]].value(msg[3].asInteger)}, \tr);
+
+				// Here's the 3.4.4 compatible version
+				oscresponder = OSCresponder(nil, responderKey, {|t, r, msg|
+					var keysymbol, indx = msg[3].asInteger;
+					keysymbol = keycodes[indx];
+					if(callbacks[keysymbol].isNil) {
+						if(verbose) {
+							("No response for key " ++ indx ++ " // " ++ keycodes[indx]).postln;
+						};
+					} {
+						callbacks[keysymbol].value(msg[4].asInteger, keysymbol, indx);
+					};
+				}).add;
+
+				"Keyboard enabled".postln;
+			};
+		};
+	}
+
+	isEnabled { ^(keysynths.notNil && oscresponder.notNil); }
+
+	// free all resources
+	disable {
+		keysynths.do {|synth|
+			synth.free;
+		};
+		oscresponder.remove;
+		keysynths = oscresponder = nil;
+		"Keyboard disabled".postln;
+	}
+
+	*listKeycodes {
+		Keyboard.initKeycodes;
+		^keycodes;
+	}
+
+	*getKeycode {|keysymbol|
+		var val;
+		Keyboard.initKeycodes;
+		val = keycodes.findKeyForValue(keysymbol);
+		if (val.isNil) {
+			Error("Key symbol"+keysymbol+" not valid").throw;
+		};
+		^val;
+	}
+
+
+	*initKeycodes {
+		keycodes ?? {
+			keycodes = (
+				10:'ss',
+				18:'1',
+				19:'2',
+				20:'3',
+				21:'4',
+				23:'5',
+				22:'6',
+				26:'7',
+				28:'8',
+				25:'9',
+				29:'0',
+				27:'min',
+				24:'plus',
+				51:'backsp',
+				48:'tab',
+				12:'q',
+				13:'w',
+				14:'e',
+				15:'r',
+				17:'t',
+				16:'y',
+				32:'u',
+				34:'i',
+				31:'o',
+				35:'p',
+				33:'sqbrL',
+				30:'sqbrR',
+				36:'rtrn',
+				0:'a',
+				1:'s',
+				2:'d',
+				3:'f',
+				5:'g',
+				4:'h',
+				38:'j',
+				40:'k',
+				37:'l',
+				41:'semicol',
+				39:'apost',
+				42:'bkslsh',
+				50:'tilde',
+				6:'z',
+				7:'x',
+				8:'c',
+				9:'v',
+				11:'b',
+				45:'n',
+				46:'m',
+				43:'com',
+				47:'per',
+				44:'fwdslsh',
+				49:'spc',
+				123:'left',
+				126:'up',
+				125:'down',
+				124:'right'
+			);
+		};
+		^keycodes;
+	}
+
+}
+
+
+/*********************************************************************************************
+SSMouseInput - A mouse input listener that responds OS-wide, even when SuperCollider is not the key application.
+*********************************************************************************************/
+SSMouseInput {
+	classvar singleton;
+	var callbacks,listenersynth,oscresponder,responderKey;
+
+
+	*enable {
+		SSMouseInput.getSingleton().enable;
+	}
+
+	*disable {
+		SSMouseInput.getSingleton().disable;
+	}
+
+	initme {|server|
+		this.initCallbacks;
+		responderKey = ("/ssmouseinput" ++ rrand(1,32000)).asSymbol;
+	}
+
+	*getSingleton {
+		if(singleton.isNil) {
+			singleton = super.new.initme(Server.default);
+			CmdPeriod.add({
+				SSMouseInput.disable;
+			});
+		};
+		^singleton;
+	}
+
+	*addMouseResponder {|mouseaction, cb_func|
+		SSMouseInput.getSingleton().addMouseResponder(mouseaction,cb_func);
+	}
+
+	/* mouseaction - a valid symbol representing a mouse function (movex, movey, button)
+	cb_func - a callback to perform when the given mouseaction happens.
+	cb_func for movex/movey has 1 argument, the mouse position
+	cb_func for button has 1 argument, the button up/down value
+	EX:
+	{|val| if (val == 1) {"Mouse is down".postln;} {"Mouse is up".postln;}; }
+	*/
+	addMouseResponder {|mouseaction, cb_func|
+		if (callbacks.includesKey(mouseaction).not) {
+			Error("Mouse action"+mouseaction+" not valid").throw;
+		};
+		callbacks.put(mouseaction,cb_func);
+	}
+
+	// initialize synth and osc responder
+	enable {
+		if(this.isEnabled) {
+			"Keyboard is already enabled".postln;
+		} {
+			// SC 3.5 has the Changed UGEN, here we use HPZ2 to detect keystate changes
+			listenersynth = {
+				var xsig = MouseX.kr(0,1,lag:0);
+				var ysig = MouseY.kr(0,1,lag:0);
+				var bsig = MouseButton.kr(-1,1,lag:0);
+				var xhpz = HPZ2.kr(xsig) > 0;
+				var yhpz = HPZ2.kr(ysig) > 0;
+				var bhpz = HPZ2.kr(bsig) > 0;
+				SendReply.kr(xhpz | yhpz | bhpz, responderKey, [xhpz,yhpz,bhpz,xsig,ysig,bsig]);
+			}.play;
+
+
+
+			// OSCFunc available only in SC 3.5
+			// Here's the 3.4.4 compatible version
+			oscresponder = OSCresponder(nil, responderKey, {|t, r, msg|
+				var movex=msg[3],movey=msg[4],button=msg[5];
+				var xpos=msg[6],ypos=msg[7],bstate=msg[8];
+
+				if (movex.asBoolean) {
+					callbacks['movex'].value(xpos);
+				};
+				if (movey.asBoolean) {
+					callbacks['movey'].value(ypos);
+				};
+				if (button.asBoolean) {
+					callbacks['button'].value(bstate);
+				};
+
+			}).add;
+
+			"SSMouseInput enabled".postln;
+		};
+	}
+
+	isEnabled { ^(listenersynth.notNil && oscresponder.notNil); }
+
+	// free all resources
+	disable {
+		listenersynth.free;
+		oscresponder.remove;
+		listenersynth = oscresponder = nil;
+		"SSMouseInput disabled".postln;
+	}
+
+	initCallbacks {
+		callbacks ?? {
+			callbacks = (
+				'movex':{|xpos| ("MOUSEX: "++xpos).postln},
+				'movey':{|ypos| ("MOUSEY: "++ypos).postln},
+				'button':{|bstate| ("MOUSEB: "++bstate).postln}
+			);
+		};
+	}
+
+}
+
+

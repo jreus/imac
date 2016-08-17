@@ -1,14 +1,20 @@
+/*
+   CocoaBridge examples & tips.
 
-/* CocoaBridge!
+   2016, Jonathan Reus-Brodsky
 
-The Objective-C synthax:
+   SCNSObject is broken on 64-bit versions and in SC 3.5 and onward. Needs rebuilding :-/
+
+
+
+The Objective-C syntax:
 	NSNumber *n = [[NSNumber alloc] initWithFloat: 1.1];
 	[n floatValue];
 turns into:
 */
 	n = SCNSObject("NSNumber", "initWithFloat:", [1.1]);
 	n.invoke("floatValue");
-/*	
+/*
 Multiple messages are put together in one String and their arguments in one Array.
 
 Example:
@@ -19,9 +25,9 @@ SC:
 c = SCNSObject("NSWindow", "initWithContentRect:styleMask:backing:defer:",[Rect(0,0,400,100), 10, 2, 1]);
 
 /*
-Some methods need to be defered. If you want to defer ust call invoke with defer:true. Watch out there is no smart protection for methods that need defer until now! In general you should defer graphic operations.
+Some methods need to be defered. If you want to defer call invoke with defer:true. Watch out there is no smart protection for methods that need defer until now! In general you should defer graphic operations.
 So calling this might crash sc-lang:*/
-	c.invoke("makeKeyAndOrderFront:", [nil]);	
+	c.invoke("makeKeyAndOrderFront:", [nil]);
 /* but this line is fine:
 */
 	c.invoke("makeKeyAndOrderFront:", [nil], defer:true);
@@ -66,12 +72,12 @@ NSPoint							Point
 BOOL, long, char, int, short			Integer
 float, double						Float
 c99 _bool							Boolean
-*(pointer type)						RawPointer							
+*(pointer type)						RawPointer
 id, (any other NSObject)				SCNSObject
 
 
 */
 
 
-
+Quarks.gui
 

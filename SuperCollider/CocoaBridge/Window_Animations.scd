@@ -1,6 +1,13 @@
 /*
-- Next, rehearsals, scoring and gestures..
-- Make nice classes
+
+Window Animations using CocoaBridge
+
+Note that SCNSObject is broken in 3.5 (64-bit)
+
+See:
+https://github.com/supercollider/supercollider/issues/252
+http://new-supercollider-mailing-lists-forums-use-these.2681727.n2.nabble.com/SCNSObject-cocoa-bridge-broken-in-3-5-td7294936.html
+
 
 */
 
@@ -11,13 +18,13 @@ s.boot;
 ~buttons = Array.newClear;
 CmdPeriod.add({
 "Start Releasing".postln;
-~windows.do ({|win| 
+~windows.do ({|win|
 	~windows.remove(win);
 	"Rel window".postln;
 	win.notNil and:{win.invoke("close",defer:true);};
 	win.release;
 	});
-~buttons.do ({|but| 
+~buttons.do ({|but|
 	~buttons.remove(but);
 	"Rel button".postln; but.release; });
 });
@@ -33,7 +40,7 @@ Ndef(\an,{|thresh=0.13|
 	amp = Amplitude.kr(in);
 	SendReply.kr((amp > thresh),"/amp",[amp]);
 	}).play;
-	
+
 /*
 a = { Amplitude.kr(SoundIn.ar(0)); }.scope;
 a.free;
@@ -41,7 +48,7 @@ a.free;
 
 
 ( // How to keep this on cmd period?
-~oscreply.notNil and: {~oscreply.remove;}; ~oscreply = OSCresponder(nil, "/amp", { |t, r, msg| 
+~oscreply.notNil and: {~oscreply.remove;}; ~oscreply = OSCresponder(nil, "/amp", { |t, r, msg|
 	var ampval = msg[3];
 	msg.postln;
 	{
@@ -75,7 +82,7 @@ o = SCNSObject("NSWindow", "initWithContentRect:styleMask:backing:defer:",[r, 15
 ~windows.put(0,o);
 w = ~windows[0];
 w.invoke("setBackgroundColor:",[Color.rand]);
-w.invoke("setTitle:",["Press any key to continueÉ"]);
+w.invoke("setTitle:",["Press any key to continueï¿½"]);
 w.invoke("makeKeyAndOrderFront:",[nil],defer:true);
 c = SCNSObject("NSView", "initWithFrame:", [w.invoke("frame")]);
 w.invoke("setContentView:",[c], true);
@@ -102,16 +109,16 @@ var width, height, numcols = 12, numrows = 12;
 width = Window.screenBounds.right / numcols;
 height = Window.screenBounds.bottom / numrows;
 
-numrows.do({|i| 
-	
-	numcols.do({|j| 
+numrows.do({|i|
+
+	numcols.do({|j|
 		r = Rect(j*width, i*height, width, height);
 		w = SCNSObject("NSWindow", "initWithContentRect:styleMask:backing:defer:",[r,15,2,1]);
 		~windows.add(w);
 		w.invoke("setBackgroundColor:",[Color.rand]);
 		w.invoke("makeKeyAndOrderFront:",[nil],defer:true);
 		});
-	
+
 	});
 
 
