@@ -1,0 +1,356 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
+		8DD76F6A0486A84900D96B5E /* oscApp.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6859E8B029090EE04C91782 /* oscApp.1 */; };
+		EF0A35B21740142D0006A000 /* timetag.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35A91740142D0006A000 /* timetag.c */; };
+		EF0A35B31740142D0006A000 /* testlo.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35AA1740142D0006A000 /* testlo.c */; };
+		EF0A35B41740142D0006A000 /* subtest.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35AB1740142D0006A000 /* subtest.c */; };
+		EF0A35B51740142D0006A000 /* server_thread.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35AC1740142D0006A000 /* server_thread.c */; };
+		EF0A35B61740142D0006A000 /* server.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35AD1740142D0006A000 /* server.c */; };
+		EF0A35B71740142D0006A000 /* send.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35AE1740142D0006A000 /* send.c */; };
+		EF0A35B81740142D0006A000 /* pattern_match.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35AF1740142D0006A000 /* pattern_match.c */; };
+		EF0A35B91740142D0006A000 /* method.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35B01740142D0006A000 /* method.c */; };
+		EF0A35BA1740142D0006A000 /* message.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35B11740142D0006A000 /* message.c */; };
+		EF0A35C1174014480006A000 /* lo_types_internal.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35BF174014480006A000 /* lo_types_internal.h */; };
+		EF0A35C2174014480006A000 /* lo_internal.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35C0174014480006A000 /* lo_internal.h */; };
+		EF0A35C6174014520006A000 /* bundle.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35C3174014510006A000 /* bundle.c */; };
+		EF0A35C7174014520006A000 /* blob.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35C4174014520006A000 /* blob.c */; };
+		EF0A35C8174014520006A000 /* address.c in Sources */ = {isa = PBXBuildFile; fileRef = EF0A35C5174014520006A000 /* address.c */; };
+		EF0A35CF174014850006A000 /* config.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35CE174014850006A000 /* config.h */; };
+		EF0A35E5174015640006A000 /* lo_macros.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35DE174015640006A000 /* lo_macros.h */; };
+		EF0A35E6174015640006A000 /* lo_lowlevel.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35DF174015640006A000 /* lo_lowlevel.h */; };
+		EF0A35E7174015640006A000 /* lo_errors.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35E0174015640006A000 /* lo_errors.h */; };
+		EF0A35E8174015640006A000 /* lo.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35E1174015640006A000 /* lo.h */; };
+		EF0A35E9174015640006A000 /* lo_types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35E2174015640006A000 /* lo_types.h */; };
+		EF0A35EA174015640006A000 /* lo_throw.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35E3174015640006A000 /* lo_throw.h */; };
+		EF0A35EB174015640006A000 /* lo_osc_types.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35E4174015640006A000 /* lo_osc_types.h */; };
+		EF0A35EE174015710006A000 /* lo_endian.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = EF0A35ED174015710006A000 /* lo_endian.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildStyle section */
+		014CEA460018CE2711CA2923 /* Debug */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		014CEA470018CE2711CA2923 /* Release */ = {
+			isa = PBXBuildStyle;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End PBXBuildStyle section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8DD76F690486A84900D96B5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 8;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				8DD76F6A0486A84900D96B5E /* oscApp.1 in CopyFiles */,
+				EF0A35C1174014480006A000 /* lo_types_internal.h in CopyFiles */,
+				EF0A35C2174014480006A000 /* lo_internal.h in CopyFiles */,
+				EF0A35CF174014850006A000 /* config.h in CopyFiles */,
+				EF0A35E5174015640006A000 /* lo_macros.h in CopyFiles */,
+				EF0A35E6174015640006A000 /* lo_lowlevel.h in CopyFiles */,
+				EF0A35E7174015640006A000 /* lo_errors.h in CopyFiles */,
+				EF0A35E8174015640006A000 /* lo.h in CopyFiles */,
+				EF0A35E9174015640006A000 /* lo_types.h in CopyFiles */,
+				EF0A35EA174015640006A000 /* lo_throw.h in CopyFiles */,
+				EF0A35EB174015640006A000 /* lo_osc_types.h in CopyFiles */,
+				EF0A35EE174015710006A000 /* lo_endian.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		08FB7796FE84155DC02AAC07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		8DD76F6C0486A84900D96B5E /* oscApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = oscApp; sourceTree = BUILT_PRODUCTS_DIR; };
+		C6859E8B029090EE04C91782 /* oscApp.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = oscApp.1; sourceTree = "<group>"; };
+		EF0A35A91740142D0006A000 /* timetag.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = timetag.c; sourceTree = "<group>"; };
+		EF0A35AA1740142D0006A000 /* testlo.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = testlo.c; sourceTree = "<group>"; };
+		EF0A35AB1740142D0006A000 /* subtest.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = subtest.c; sourceTree = "<group>"; };
+		EF0A35AC1740142D0006A000 /* server_thread.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = server_thread.c; sourceTree = "<group>"; };
+		EF0A35AD1740142D0006A000 /* server.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = server.c; sourceTree = "<group>"; };
+		EF0A35AE1740142D0006A000 /* send.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = send.c; sourceTree = "<group>"; };
+		EF0A35AF1740142D0006A000 /* pattern_match.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = pattern_match.c; sourceTree = "<group>"; };
+		EF0A35B01740142D0006A000 /* method.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = method.c; sourceTree = "<group>"; };
+		EF0A35B11740142D0006A000 /* message.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = message.c; sourceTree = "<group>"; };
+		EF0A35BF174014480006A000 /* lo_types_internal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_types_internal.h; sourceTree = "<group>"; };
+		EF0A35C0174014480006A000 /* lo_internal.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_internal.h; sourceTree = "<group>"; };
+		EF0A35C3174014510006A000 /* bundle.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = bundle.c; sourceTree = "<group>"; };
+		EF0A35C4174014520006A000 /* blob.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = blob.c; sourceTree = "<group>"; };
+		EF0A35C5174014520006A000 /* address.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = address.c; sourceTree = "<group>"; };
+		EF0A35CE174014850006A000 /* config.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		EF0A35DE174015640006A000 /* lo_macros.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_macros.h; sourceTree = "<group>"; };
+		EF0A35DF174015640006A000 /* lo_lowlevel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_lowlevel.h; sourceTree = "<group>"; };
+		EF0A35E0174015640006A000 /* lo_errors.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_errors.h; sourceTree = "<group>"; };
+		EF0A35E1174015640006A000 /* lo.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo.h; sourceTree = "<group>"; };
+		EF0A35E2174015640006A000 /* lo_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_types.h; sourceTree = "<group>"; };
+		EF0A35E3174015640006A000 /* lo_throw.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_throw.h; sourceTree = "<group>"; };
+		EF0A35E4174015640006A000 /* lo_osc_types.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_osc_types.h; sourceTree = "<group>"; };
+		EF0A35ED174015710006A000 /* lo_endian.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = lo_endian.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DD76F660486A84900D96B5E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08FB7794FE84155DC02AAC07 /* oscApp */ = {
+			isa = PBXGroup;
+			children = (
+				08FB7795FE84155DC02AAC07 /* Source */,
+				C6859E8C029090F304C91782 /* Documentation */,
+				1AB674ADFE9D54B511CA2CBB /* Products */,
+			);
+			name = oscApp;
+			sourceTree = "<group>";
+		};
+		08FB7795FE84155DC02AAC07 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				EF0A35A8174014170006A000 /* liblo */,
+				08FB7796FE84155DC02AAC07 /* main.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		1AB674ADFE9D54B511CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DD76F6C0486A84900D96B5E /* oscApp */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C6859E8C029090F304C91782 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				C6859E8B029090EE04C91782 /* oscApp.1 */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
+		EF0A35A8174014170006A000 /* liblo */ = {
+			isa = PBXGroup;
+			children = (
+				EF0A35ED174015710006A000 /* lo_endian.h */,
+				EF0A35DE174015640006A000 /* lo_macros.h */,
+				EF0A35DF174015640006A000 /* lo_lowlevel.h */,
+				EF0A35E0174015640006A000 /* lo_errors.h */,
+				EF0A35E1174015640006A000 /* lo.h */,
+				EF0A35E2174015640006A000 /* lo_types.h */,
+				EF0A35E3174015640006A000 /* lo_throw.h */,
+				EF0A35E4174015640006A000 /* lo_osc_types.h */,
+				EF0A35CE174014850006A000 /* config.h */,
+				EF0A35C3174014510006A000 /* bundle.c */,
+				EF0A35C4174014520006A000 /* blob.c */,
+				EF0A35C5174014520006A000 /* address.c */,
+				EF0A35BF174014480006A000 /* lo_types_internal.h */,
+				EF0A35C0174014480006A000 /* lo_internal.h */,
+				EF0A35A91740142D0006A000 /* timetag.c */,
+				EF0A35AA1740142D0006A000 /* testlo.c */,
+				EF0A35AB1740142D0006A000 /* subtest.c */,
+				EF0A35AC1740142D0006A000 /* server_thread.c */,
+				EF0A35AD1740142D0006A000 /* server.c */,
+				EF0A35AE1740142D0006A000 /* send.c */,
+				EF0A35AF1740142D0006A000 /* pattern_match.c */,
+				EF0A35B01740142D0006A000 /* method.c */,
+				EF0A35B11740142D0006A000 /* message.c */,
+			);
+			name = liblo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8DD76F620486A84900D96B5E /* oscApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF0A359D174014080006A000 /* Build configuration list for PBXNativeTarget "oscApp" */;
+			buildPhases = (
+				8DD76F640486A84900D96B5E /* Sources */,
+				8DD76F660486A84900D96B5E /* Frameworks */,
+				8DD76F690486A84900D96B5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = oscApp;
+			};
+			dependencies = (
+			);
+			name = oscApp;
+			productInstallPath = "$(HOME)/bin";
+			productName = oscApp;
+			productReference = 8DD76F6C0486A84900D96B5E /* oscApp */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		08FB7793FE84155DC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = EF0A35A1174014080006A000 /* Build configuration list for PBXProject "oscApp" */;
+			buildSettings = {
+			};
+			buildStyles = (
+				014CEA460018CE2711CA2923 /* Debug */,
+				014CEA470018CE2711CA2923 /* Release */,
+			);
+			hasScannedForEncodings = 1;
+			mainGroup = 08FB7794FE84155DC02AAC07 /* oscApp */;
+			projectDirPath = "";
+			targets = (
+				8DD76F620486A84900D96B5E /* oscApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DD76F640486A84900D96B5E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DD76F650486A84900D96B5E /* main.cpp in Sources */,
+				EF0A35B21740142D0006A000 /* timetag.c in Sources */,
+				EF0A35B31740142D0006A000 /* testlo.c in Sources */,
+				EF0A35B41740142D0006A000 /* subtest.c in Sources */,
+				EF0A35B51740142D0006A000 /* server_thread.c in Sources */,
+				EF0A35B61740142D0006A000 /* server.c in Sources */,
+				EF0A35B71740142D0006A000 /* send.c in Sources */,
+				EF0A35B81740142D0006A000 /* pattern_match.c in Sources */,
+				EF0A35B91740142D0006A000 /* method.c in Sources */,
+				EF0A35BA1740142D0006A000 /* message.c in Sources */,
+				EF0A35C6174014520006A000 /* bundle.c in Sources */,
+				EF0A35C7174014520006A000 /* blob.c in Sources */,
+				EF0A35C8174014520006A000 /* address.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EF0A359E174014080006A000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = oscApp;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		EF0A359F174014080006A000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = oscApp;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		EF0A35A0174014080006A000 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INSTALL_PATH = "$(HOME)/bin";
+				PREBINDING = NO;
+				PRODUCT_NAME = oscApp;
+			};
+			name = Default;
+		};
+		EF0A35A2174014080006A000 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		EF0A35A3174014080006A000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		EF0A35A4174014080006A000 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EF0A359D174014080006A000 /* Build configuration list for PBXNativeTarget "oscApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF0A359E174014080006A000 /* Debug */,
+				EF0A359F174014080006A000 /* Release */,
+				EF0A35A0174014080006A000 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		EF0A35A1174014080006A000 /* Build configuration list for PBXProject "oscApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF0A35A2174014080006A000 /* Debug */,
+				EF0A35A3174014080006A000 /* Release */,
+				EF0A35A4174014080006A000 /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 08FB7793FE84155DC02AAC07 /* Project object */;
+}
