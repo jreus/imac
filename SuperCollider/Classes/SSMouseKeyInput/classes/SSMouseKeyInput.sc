@@ -180,11 +180,11 @@ Keyboard {
 		^val;
 	}
 
-
+// http://macbiblioblog.blogspot.nl/2014/12/key-codes-for-function-and-special-keys.html
 	*initKeycodes {
 		keycodes ?? {
 			keycodes = (
-				10:'ss',
+				10:'sectionsign',
 				18:'1',
 				19:'2',
 				20:'3',
@@ -195,9 +195,9 @@ Keyboard {
 				28:'8',
 				25:'9',
 				29:'0',
-				27:'min',
-				24:'plus',
-				51:'backsp',
+				27:'minus',
+				24:'equal',
+				51:'backspace',
 				48:'tab',
 				12:'q',
 				13:'w',
@@ -209,9 +209,6 @@ Keyboard {
 				34:'i',
 				31:'o',
 				35:'p',
-				33:'sqbrL',
-				30:'sqbrR',
-				36:'rtrn',
 				0:'a',
 				1:'s',
 				2:'d',
@@ -221,10 +218,6 @@ Keyboard {
 				38:'j',
 				40:'k',
 				37:'l',
-				41:'semicol',
-				39:'apost',
-				42:'bkslsh',
-				50:'tilde',
 				6:'z',
 				7:'x',
 				8:'c',
@@ -232,14 +225,36 @@ Keyboard {
 				11:'b',
 				45:'n',
 				46:'m',
-				43:'com',
-				47:'per',
+				33:'leftbracket',
+				30:'rightbracket',
+				36:'return',
+				41:'semicolon',
+				39:'apost',
+				42:'bkslsh',
+				50:'tilde',
+				43:'comma',
+				47:'period',
 				44:'fwdslsh',
-				49:'spc',
+				49:'space',
 				123:'left',
 				126:'up',
 				125:'down',
-				124:'right'
+				124:'right',
+				63:'fn',
+				122:'f1',
+				120:'f2',
+				99:'f3',
+				118:'f4',
+				96:'f5',
+				97:'f6',
+				98:'f7',
+				100:'f8',
+				101:'f9',
+				109:'f10',
+				103:'f11',
+				111:'f12',
+				105:'f13'
+
 			);
 		};
 		^keycodes;

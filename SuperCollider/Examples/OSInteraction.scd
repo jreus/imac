@@ -1,7 +1,8 @@
 /******
 
-OS Interaction Examples
-
+OS Interaction Examples using unixCmd and AppleScript rather than CocoaBridge.
+AppleScript can run key commands, which is nice. It's flexible but slow.
+Not so good for constructing windows & playing with Cocoa-specific effects.
 
 ******/
 
@@ -26,13 +27,16 @@ s.boot;
 
 
 
-// Interaction with the OS without using OSC
-// String.unixCmd(action, postoutput);
-// String.unixCmdGetStdOut
-// Integer.pidRunning
-// String.runInTerminal
-// String.setenv(value)
-// String.getenv
+/************************************** Some UnixCmd niceness...
+String.unixCmd(action, postoutput);
+String.unixCmdGetStdOut
+Integer.pidRunning
+String.runInTerminal
+String.setenv(value)
+String.getenv
+**********************/
+
+
 
 "echo My shell is $0".unixCmd(action: {|res, pid| [\done, res, pid].postln},postOutput: true);
 (
@@ -40,25 +44,57 @@ s.boot;
 	+" -e 'tell application \"System Events\"'"
 	+" -e 'repeat 6 times'"
 	+" -e 'beep'"
-	+" -e 'key code 111'"
+	+" -e 'key code 103'"
 	+" -e 'delay 1'"
-	+" -e 'key code 111'"
+	+" -e 'key code 103'"
 	+" -e 'delay 1'"
 	+" -e 'end repeat'"
 	+" -e 'end tell'"
 	).unixCmd;
 )
 
+
+(
+// Window Wiggle, fork it to be able to do other things in the meantime...
+{
+("osascript"
+	+"-e 'tell application \"System Events\"'"
+	+"-e 'repeat 11 times'"
+	+"-e 'key code 103'"
+	+"-e 'delay 0.2'"
+	+"-e 'end repeat'"
+	+"-e 'repeat 11 times'"
+	+"-e 'key code 109'"
+	+"-e 'delay 0.2'"
+	+"-e 'end repeat'"
+	+"-e 'end tell'"
+).unixCmd;
+}.fork(AppClock);
+"osascript -e 'beep' -e 'beep' -e 'beep'".unixCmd;
+);
+
+/** AppleScript keycodes are
+Here:
+http://eastmanreference.com/complete-list-of-applescript-key-codes/
+http://macbiblioblog.blogspot.nl/2014/12/key-codes-for-function-and-special-keys.html
+**/
+AppleScript.listKeycodes;
+AppleScript.listKeycodes[111]; // f12
+AppleScript.listKeycodes.findKeyForValue('f11'); // 103
+
+
 (
 "osascript -e 'beep' -e 'beep'".unixCmd;
-)
+);
 
 // One command after another.
+(
 (
 "osascript -e 'say \"Revolutionary!\"'"
 +"-e 'say \"Reeeeeevolutionary!\"'"
 +"-e 'say \"Revoooooolutionary!\"'"
 ).unixCmd;
+);
 
 // Or all at the same time
 (
