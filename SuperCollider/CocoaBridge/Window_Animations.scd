@@ -72,7 +72,7 @@ a.free;
 
 ~windows.size
 
-
+~windows = Array.newClear(10);
 
 // Button Flurry
 (
@@ -87,7 +87,8 @@ w.invoke("makeKeyAndOrderFront:",[nil],defer:true);
 c = SCNSObject("NSView", "initWithFrame:", [w.invoke("frame")]);
 w.invoke("setContentView:",[c], true);
 
-220.do({arg i;
+{
+220.do {|i|
 	0.02.wait;
 	b = SCNSObject("NSButton", "initWithFrame:", [Rect(r.width.rand,r.height.rand,100,20)]);
 	~buttons.add(b);
@@ -96,9 +97,9 @@ w.invoke("setContentView:",[c], true);
 	b.invoke("setBezelStyle:",[rrand(1,6)]);
 	b.invoke("setTitle:",[["OK","Apply","Quit","Cancel","Continue","Agree"].choose]);
 	w.invoke("setBackgroundColor:",[Color.rand]);
-	});
-
+};
 }.fork(AppClock);
+
 );
 
 
