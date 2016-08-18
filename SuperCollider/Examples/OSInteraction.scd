@@ -23,6 +23,21 @@ s.boot;
 
 
 
+// Using the Keylogger to make a gesture looper.
+Keyboard.enableKeylogger;
+
+// What do I want?
+// Using Keylog, when a "record" bit is enabled, it should record a sequence of timestamped keystrokes, including:
+/*
+- timestamp of event relative to first keystroke
+- keycode
+- state (up, down)
+
+This should all be recorded in a KeyMacro object which can be replayed via AppleScript
+*/
+
+// Record some macros...
+
 
 
 
