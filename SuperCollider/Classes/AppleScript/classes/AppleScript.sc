@@ -8,6 +8,9 @@ AppleScript Command Reference
 https://developer.apple.com/library/mac/documentation/AppleScript/Conceptual/AppleScriptLangGuide/reference/ASLR_cmds.html#//apple_ref/doc/uid/TP40000983-CH216-SW59
 http://www.mactech.com/articles/mactech/Vol.21/21.07/WorkingWithText/index.html
 
+Using System Events
+https://en.wikibooks.org/wiki/AppleScript_Programming/System_Events
+
 
 USAGE:
 
@@ -69,11 +72,15 @@ AppleScript {
 	/********
 	Evaluates a string containing AppleScript code, where commands are separated by newlines.
 
+	post - optionally post the result code & pid of the osascript process
+	returnFunc - optional function to be called after the osascript process finishes, takes result & pid as arguments
 	*******/
-	*eval {|string, post=false|
+	*eval {|string, post=false, returnFunc=nil|
 		var cmd, lines;
-		lines = (string.findRegexp("^[\\s]*(.+)$"))[1][1]; // strip leading whitespace
-		lines = lines.split($\n);
+		// strip whitespace
+		string = AppleScript.stripLeadingSpace(string);
+		string = AppleScript.stripLeadingSpace(string.reverse).reverse;
+		lines = string.split($\n);
 		cmd = "osascript";
 		lines.do {|line|
 			if(line.notNil && line != "") {
@@ -81,7 +88,8 @@ AppleScript {
 				cmd = cmd + "-e '" ++ line ++ "'";
 			}
 		};
-		cmd.unixCmd({|result, pid| if(post) { [result, pid].postln; } });
+		returnFunc = returnFunc ? {|result, pid| if(post) { [result, pid].postln; } };
+		cmd.unixCmd(returnFunc);
 		^cmd;
 	}
 
@@ -89,7 +97,22 @@ AppleScript {
 		^Keyboard.listKeycodes;
 	}
 
-
+	// Strip leading whitespace
+	*stripLeadingSpace{|thestring|
+		var nonspacefound = false;
+		var result = "";
+		thestring.do {|char, idx|
+			if(nonspacefound) {
+				result = result ++ char;
+			} {
+				if(char.isSpace.not) {
+					nonspacefound = true;
+					result = result ++ char;
+				};
+			};
+		};	
+		^result;
+	}
 
 
 }

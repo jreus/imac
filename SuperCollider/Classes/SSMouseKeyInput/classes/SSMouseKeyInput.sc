@@ -18,9 +18,9 @@ Keyboard {
 	// OSX keycodes and abbreviations
 	classvar <keycodes;
 	classvar singleton;
-	var <callbacks, <callbacks_up, <callbacks_down;
+	var <callbacks, <callbacks_up, <callbacks_down, <callback_keylogger;
 	var <keysynths, <oscresponder, <responderKey;
-	var <>verbose;
+	var <>verbose, <>keylogger_enabled;
 	var <server;
 
 
@@ -37,7 +37,9 @@ Keyboard {
 		callbacks = ();
 		callbacks_up = ();
 		callbacks_down = ();
+		callback_keylogger = nil;
 		verbose = false;
+		keylogger_enabled = true;
 		server = serv;
 		responderKey = ("/sskeyinput" ++ rrand(1,32000)).asSymbol;
 	}
@@ -62,6 +64,38 @@ Keyboard {
 	*doForKey {|keysymbol, state, function|
 		Keyboard.getSingleton().doForKey(keysymbol, state, function);
 	}
+
+	*enableKeylogger {|keylog_func=nil|
+		Keyboard.getSingleton().enableKeylogger(keylog_func);
+	}
+
+	*disableKeylogger {
+		Keyboard.getSingleton().disableKeylogger;
+	}
+
+
+	/******
+	Enable Keylogging.
+	keylog_func - The callback function which is called every time a key change is registered.
+
+	*******/
+	enableKeylogger {|keylog_func=nil|
+		keylogger_enabled = true;
+		if(keylog_func.notNil) {
+			callback_keylogger = keylog_func;
+		} {
+			if(callback_keylogger.isNil) {
+				callback_keylogger = {|state, symbol, index|
+					Post << "KEYLOG //// " << "State: " << state << " Symbol: " << symbol << " Index: " << index << $\n;
+				};
+			};
+		}
+	}
+
+	disableKeylogger {
+		keylogger_enabled = false;
+	}
+
 
 	doForKey {|keysymbol, state, function|
 		Keyboard.addKeyResponder(keysymbol, {|val, symb, indx|
@@ -137,14 +171,17 @@ Keyboard {
 
 				// Here's the 3.4.4 compatible version
 				oscresponder = OSCresponder(nil, responderKey, {|t, r, msg|
-					var keysymbol, indx = msg[3].asInteger;
+					var keysymbol, indx = msg[3].asInteger, state = msg[4].asInteger;
 					keysymbol = keycodes[indx];
+					if(keylogger_enabled) {
+							callback_keylogger.value(state, keysymbol, indx);
+					};
 					if(callbacks[keysymbol].isNil) {
 						if(verbose) {
 							("No response for key " ++ indx ++ " // " ++ keycodes[indx]).postln;
 						};
 					} {
-						callbacks[keysymbol].value(msg[4].asInteger, keysymbol, indx);
+						callbacks[keysymbol].value(state, keysymbol, indx);
 					};
 				}).add;
 
@@ -228,6 +265,9 @@ Keyboard {
 				33:'leftbracket',
 				30:'rightbracket',
 				36:'return',
+				53:'escape',
+				76:'keypad_enter',
+				51:'delete',
 				41:'semicolon',
 				39:'apost',
 				42:'bkslsh',
@@ -253,7 +293,15 @@ Keyboard {
 				109:'f10',
 				103:'f11',
 				111:'f12',
-				105:'f13'
+				105:'f13',
+				55:'command',
+				56:'shift',
+				57:'capslock',
+				58:'option',
+				59:'control',
+				60:'rightshift',
+				61:'rightoption',
+				62:'rightcontrol'
 
 			);
 		};
