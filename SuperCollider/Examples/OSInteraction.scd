@@ -118,3 +118,9 @@ AppleScript.listKeycodes.findKeyForValue('f11'); // 103
 "osascript -e 'say \"Revoooooolutionary!\"'".unixCmd;
 );
 
+
+// Desktop Image Looper
+
+
+
+

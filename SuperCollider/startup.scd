@@ -7,9 +7,13 @@ Generic SC Startup Script
 
 ********************************/
 
+(
+
 a = ();
 a.runStartup = true; // change this to false to disable autostartup
 a.programPath = "_main.scd".resolveRelative;
 if(a.runStartup) {
 	a.programPath.load;
 };
+
+);
