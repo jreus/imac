@@ -1,1 +1,1 @@
-# imac
+# iMac Software
