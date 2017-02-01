@@ -91,8 +91,20 @@ Keyboard.addKeyResponder('4',{|val|
 	};
 });
 
+// Desktop animation
+Keyboard.addKeyResponder('0',{|val|
+	var macro;
+	if (val == 1) {
+		macro = a.automator.toggleMacroLooping(0);
+		("Animate Desktop BG:"+macro.loop).postln;
+	};
+});
 
 
+~animatorScript = "/Volumes/Store/Box\ Sync/_PROJECTS/imac/AppleScript/screenshot_bg_animator.scpt";
+~animatorScript = "/Users/imac/Documents/imac/AppleScript/screenshot_bg_animator.scpt";
+("osascript" + ~animatorScript).unixCmd;
+"osascript"+~animatorScript
 
 /*************** Control Listener Threshholds & Debounce ************
 *********************************************************************/
