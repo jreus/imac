@@ -1,8 +1,9 @@
 /******
 
 OS Interaction Examples using unixCmd and AppleScript rather than CocoaBridge.
-AppleScript can run key commands, which is nice. It's flexible but slow.
-Not so good for constructing windows & playing with Cocoa-specific effects.
+AppleScript can run key commands, which is nice. It's flexible. 
+It's disadvantage is that AppleScript is slow.
+It's not good for constructing windows & playing with Cocoa-specific effects.
 
 ******/
 
