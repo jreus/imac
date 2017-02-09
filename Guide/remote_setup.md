@@ -30,7 +30,7 @@ or if there's no internet connection
 >imac> git pull jonmachine master
 >imac> you'll be asked to add the IP to the list of known RSA hosts
 >imac> you'll be asked for the password for user jon
-
+<!--  -->
 9. And if you make some changes on the iMac, you can push them to the remote
 >imac> rm newfile.txt
 >imac> git rm newfile.txt
