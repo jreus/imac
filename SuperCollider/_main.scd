@@ -1,6 +1,6 @@
 Server.default = s = Server.internal;
 
-s.waitForBoot({
+s.waitForBoot {
 	a = a ? ();
 
 	// Amplitude listener � add some kind of debounce time here
@@ -19,4 +19,4 @@ s.waitForBoot({
 	~controlPath = "_control.scd".resolveRelative;
 	~controlPath.load;
 
-});
+};
