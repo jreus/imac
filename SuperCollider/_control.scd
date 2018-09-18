@@ -2,6 +2,7 @@
 Keyboard controls & OSC responders
 
 **************/
+
 a = a ? ();
 a.ampthresh = 0.2;
 a.ampincrement = 0.01;
@@ -99,11 +100,14 @@ Keyboard.addKeyResponder('0',{|val|
 	};
 });
 
-
 ~animatorScript = "/Volumes/Store/Box\ Sync/_PROJECTS/imac/AppleScript/screenshot_bg_animator.scpt";
 ~animatorScript = "/Users/imac/Documents/imac/AppleScript/screenshot_bg_animator.scpt";
 ("osascript" + ~animatorScript).unixCmd;
 
+~animatorScript = "/Volumes/Store/Box\ Sync/_PROJECTS/imac/AppleScript/screenshot_bg_animator.scpt";
+~animatorScript = "/Users/imac/Documents/imac/AppleScript/screenshot_bg_animator.scpt";
+("osascript" + ~animatorScript).unixCmd;
+"osascript"+~animatorScript;
 
 /*************** Control Listener Threshholds & Debounce ************
 *********************************************************************/
