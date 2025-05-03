@@ -1,0 +1,1 @@
+This directory is meant for sharing screenshots across machines. Machines have a double digit ID number, and the screenshot directory for that machine should be set to a numbered folder in this directory corresponding to the number of that machine.

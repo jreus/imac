@@ -57,6 +57,12 @@ And push them up to Github
 
 
 
+# Dated Login
+
+## Sat May 03 2025
+Wow, ten years since editing this repository!
+I've gone through and cleaned up the repo a bit to get rid of some of the big files. Ideally we want to make this repository as lightweight as possible, containing only essential software and performance files and documentation. Additional files, such as media archive, more detailed documentation, disk images, etc, should go on some USB2.0 thumb drives that travel with the iMac supplies and are also stored in the cloud (Dropbox, etc) and in ARCHIVE drives.
+
 ## Thurs Feb 19 2015
 Last minute stuff before heading out to Leuven.
 Make a control framework for supercollider
